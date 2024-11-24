@@ -11,12 +11,16 @@ const Navbar = () => (
 				Trading
 			</a>
 			<div className="ml-4">
-				<button className="bg-blue-500 hover:text-gray-400 text-white font-bold py-1 px-4 rounded mx-2">
-					Register
-				</button>
-				<button className="bg-green-500 hover:text-gray-400 text-white font-bold py-1 px-4 rounded mx-2">
-					Login
-				</button>
+				<a href="/register">
+					<button className="bg-blue-500 hover:text-gray-400 text-white font-bold py-1 px-4 rounded mx-2">
+						Register
+					</button>
+				</a>
+				<a href="/login">
+					<button className="bg-green-500 hover:text-gray-400 text-white font-bold py-1 px-4 rounded mx-2">
+						Login
+					</button>
+				</a>
 			</div>
 		</div>
 	</nav>
