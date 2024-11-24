@@ -23,7 +23,7 @@ public class WalletAccessService implements Dao<Wallet> {
         final String sql = "INSERT INTO wallets (" +
                 "public_key, " +
                 "user_id, " +
-                "address, " +
+                "walletAddress, " +
                 "private_key_hash, " +
                 "balance, " +
                 "creation_date" +
@@ -32,7 +32,7 @@ public class WalletAccessService implements Dao<Wallet> {
         jdbcTemplate.update(sql,
                 wallet.getPublicKey(),
                 wallet.getUserId(),
-                wallet.getAddress(),
+                wallet.getWalletAddress(),
                 wallet.getPrivateKeyHash(),
                 wallet.getBalance(),
                 wallet.getCreationDate());
