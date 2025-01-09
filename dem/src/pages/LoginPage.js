@@ -18,20 +18,19 @@ const Login = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		const requestBody = {
-			username: formData.username,
-			password: formData.password,
-		};
+		const url = `http://localhost:8080/loginUser?login=${encodeURIComponent(
+			formData.username
+		)}`;
 
 		axios
-			.post("http://localhost:8080/login", requestBody)
+			.get(url)
 			.then((response) => {
 				console.log("User logged in successfully", response.data);
 				alert("User logged in successfully");
 
-				const { userId } = response.data;
-				localStorage.setItem("userId", userId);
-				// Navigate to trading after successful login
+				localStorage.setItem("userId", response.data);
+
+				// navigate to a different page
 			})
 			.catch((error) => {
 				console.error("There was an error logging in!", error);
