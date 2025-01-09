@@ -14,15 +14,15 @@ import java.util.UUID;
 public class Wallet {
     private String publicKey;
     private UUID userId;
-    private String address;
+    private String walletAddress;
     private String privateKeyHash;
     private double balance;
     private Date creationDate;
 
     //web3 automatiski izveidot waletu, frontendam vajag fnc get wallet
-    public Wallet(String publicKey, String address, String privateKeyHash, Date creationDate) {
+    public Wallet(String publicKey, String walletAddress, String privateKeyHash, Date creationDate) {
         this.publicKey = publicKey;
-        this.address = address;
+        this.walletAddress = walletAddress;
         this.privateKeyHash = privateKeyHash;
         this.creationDate = creationDate;
     }

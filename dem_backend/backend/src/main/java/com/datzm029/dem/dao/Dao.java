@@ -7,6 +7,10 @@ public interface Dao<T> {
 
     List<T> selectAll();
 
+    default int selectAllById(String id) {
+        return 0;
+    }
+
     T checkIfExist(T object);
 
 }

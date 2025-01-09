@@ -2,7 +2,6 @@ package com.datzm029.dem.Services;
 
 import com.datzm029.dem.dao.Dao;
 import com.datzm029.dem.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +14,9 @@ public class UserService {
         this.walletService = walletService;
     }
 
-    public UserService addUser(User user){
-        walletService.addWallet(user.getUserId());
-        return (UserService) dao.insert(user);
+    public User addUser(User user){
+        User tmpUser = (User) dao.insert(user);
+        walletService.addWallet(tmpUser.getUserId());
+        return tmpUser;
     }
 }

@@ -16,4 +16,12 @@ COMMENT ON DATABASE dem
     IS 'Database for Delivery Energy Marketplace';
 
 GRANT ALL PRIVILEGES ON DATABASE dem TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.wallets TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.users TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.transaction_ledger TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.iot_devices TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.energy TO dem;
+
+
+
 ALTER USER dem CREATEDB;
