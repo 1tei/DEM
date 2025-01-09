@@ -9,7 +9,6 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthAccounts;
 import org.web3j.protocol.core.methods.response.EthBlock;
 import org.web3j.protocol.core.methods.response.EthGasPrice;
@@ -179,19 +178,20 @@ public class GanacheService {
         GanacheService manager = new GanacheService(privateKey, addressTo, rpcEndpoint, chainId);
         manager.createTrade(addressTo);
     }
+
     public void createContractTrade(String privateKey, String addressTo, String contractAddress, String rpcEndpoint, Long chainId) throws Exception {
         GanacheService manager = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
         manager.createTrade(addressTo);
     }
+
     private void createTrade(String addressTo) throws Exception {
         BigInteger energyAmount = BigInteger.valueOf(1000); // 100 units of energy
-        BigInteger weiValue = Convert.toWei("2.1", Convert.Unit.ETHER).toBigInteger(); // 0.1 ETH in wei
-
+        BigInteger weiValue = Convert.toWei("10", Convert.Unit.ETHER).toBigInteger(); // 0.1 ETH in wei
 
         TransactionReceipt createTradeReceipt = createTrade(addressTo, energyAmount, weiValue);
         System.out.println("Trade created successfully: " + createTradeReceipt.getTransactionHash());
-
     }
+
     /**
      * Creates a new trade on the blockchain.
      *
@@ -243,12 +243,12 @@ public class GanacheService {
             String contractAddress = "0x5A24267205aA7db2BB27F1A6615fe6F80bA6E1ec";
             String rpcEndpoint = "HTTP://127.0.0.1:7545"; // Use this for Ganache or localhost
             long chainId = 1337;  // Chain ID for Ganache
-GanacheService service = new GanacheService(privateKey,contractAddress,rpcEndpoint,chainId);
-service.createContractTrade(privateKey,addressTo, contractAddress, rpcEndpoint,chainId);
+            GanacheService service = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
+            service.createContractTrade(privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
 
 //manager.getTransactionsByAddress(addressTo);
-             Credentials pk = service.createWallet2("asd");
-            service.createP2PTrade(privateKey,pk.getAddress(),rpcEndpoint,chainId);
+            Credentials pk = service.createWallet2("asd");
+            service.createP2PTrade(privateKey, pk.getAddress(), rpcEndpoint, chainId);
 
             //TransactionReceipt createTradeReceipt2 = manager.createTrade("0x255FfE4a4797E0873C08525D0f5D4051211df939", energyAmount, weiValue);
             // System.out.println("Trade created successfully2: " + createTradeReceipt2.getTransactionHash());

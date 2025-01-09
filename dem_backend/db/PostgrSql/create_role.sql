@@ -20,6 +20,7 @@ GRANT ALL PRIVILEGES ON TABLE dem.wallets TO dem;
 GRANT ALL PRIVILEGES ON TABLE dem.users TO dem;
 GRANT ALL PRIVILEGES ON TABLE dem.transaction_ledger TO dem;
 GRANT ALL PRIVILEGES ON TABLE dem.iot_devices TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.energy TO dem;
 
 
 
