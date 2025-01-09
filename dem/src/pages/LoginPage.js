@@ -28,7 +28,10 @@ const Login = () => {
 			.then((response) => {
 				console.log("User logged in successfully", response.data);
 				alert("User logged in successfully");
-				// Handle successful login, such as saving a token or redirecting
+
+				const { userId } = response.data;
+				localStorage.setItem("userId", userId);
+				// Navigate to trading after successful login
 			})
 			.catch((error) => {
 				console.error("There was an error logging in!", error);
