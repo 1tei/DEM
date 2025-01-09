@@ -5,18 +5,31 @@ import com.datzm029.dem.model.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class UserService {
     private final Dao dao;
     private final WalletService walletService;
-    public UserService(@Qualifier("postgres_user")Dao dao, WalletService walletService) {
+
+    public UserService(@Qualifier("postgres_user") Dao dao, WalletService walletService) {
         this.dao = dao;
         this.walletService = walletService;
     }
 
-    public User addUser(User user){
+    public User addUser(User user) {
         User tmpUser = (User) dao.insert(user);
         walletService.addWallet(tmpUser.getUserId());
         return tmpUser;
+    }
+
+    public User selectUser(UUID userId) {
+        User tmpUser = (User) dao.selectById(userId);
+        System.out.println(tmpUser);
+        return tmpUser;
+    }
+
+    public UUID getId(String name){
+       return dao.getId(name);
     }
 }

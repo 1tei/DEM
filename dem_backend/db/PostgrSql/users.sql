@@ -7,6 +7,7 @@ CREATE TABLE users (
     region TEXT,
     address TEXT,
     email TEXT,
+    surplus INT,
     total_energy_produced INT,
     total_energy_consumed INT,
     password TEXT

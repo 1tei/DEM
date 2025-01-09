@@ -186,7 +186,7 @@ public class GanacheService {
 
     private void createTrade(String addressTo) throws Exception {
         BigInteger energyAmount = BigInteger.valueOf(1000); // 100 units of energy
-        BigInteger weiValue = Convert.toWei("10", Convert.Unit.ETHER).toBigInteger(); // 0.1 ETH in wei
+        BigInteger weiValue = Convert.toWei("0.1", Convert.Unit.ETHER).toBigInteger(); // 0.1 ETH in wei
 
         TransactionReceipt createTradeReceipt = createTrade(addressTo, energyAmount, weiValue);
         System.out.println("Trade created successfully: " + createTradeReceipt.getTransactionHash());
@@ -238,9 +238,9 @@ public class GanacheService {
     public static void main(String[] args) {
         try {
             // Replace these values with your own
-            String privateKey = "0x11e4977166cb1e01c387dd990b4467e5d162d5d770764f991f88ce7af2f6312c";
-            String addressTo = "0x255FfE4a4797E0873C08525D0f5D4051211df939";
-            String contractAddress = "0x5A24267205aA7db2BB27F1A6615fe6F80bA6E1ec";
+            String privateKey = "0x589bc7a586dcd1a4073e5f075d2d3b7c686e07ae73642ed312d7421618af7785";
+            String addressTo = "0xE23769A21B078CcE9F953fF22cc85A31Eeb05265";
+            String contractAddress = "0x9AbFa633fc55D8370A52e242108e57D486f13763";
             String rpcEndpoint = "HTTP://127.0.0.1:7545"; // Use this for Ganache or localhost
             long chainId = 1337;  // Chain ID for Ganache
             GanacheService service = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
@@ -248,7 +248,7 @@ public class GanacheService {
 
 //manager.getTransactionsByAddress(addressTo);
             Credentials pk = service.createWallet2("asd");
-            service.createP2PTrade(privateKey, pk.getAddress(), rpcEndpoint, chainId);
+            //service.createP2PTrade(privateKey, addressTo, rpcEndpoint, chainId);
 
             //TransactionReceipt createTradeReceipt2 = manager.createTrade("0x255FfE4a4797E0873C08525D0f5D4051211df939", energyAmount, weiValue);
             // System.out.println("Trade created successfully2: " + createTradeReceipt2.getTransactionHash());

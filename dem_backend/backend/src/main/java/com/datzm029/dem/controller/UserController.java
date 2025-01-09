@@ -3,6 +3,7 @@ package com.datzm029.dem.controller;
 import com.datzm029.dem.Services.UserService;
 import com.datzm029.dem.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,10 +30,23 @@ public class UserController {
                 user.getName(),
                 user.getRegion(),
                 user.getAddress(),
-                user.getAddress(),
+                user.getEmail(),
+                0,
                 BigInteger.ZERO,
                 BigInteger.ZERO,
                 user.getPassword())
         );
+    }
+
+    @GetMapping(value = "/getUser")
+    public User getUserById(@RequestParam("userId") String userId){
+        System.out.println("Called getUser");
+        return userService.selectUser(UUID.fromString(userId));
+    }
+
+    @GetMapping(value = "/loginUser")
+    public UUID getLoggedUser(@RequestParam("login") String login){
+        System.out.println("Called getUser");
+        return userService.getId(login);
     }
 }

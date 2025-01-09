@@ -49,9 +49,27 @@ public class UserAccessService implements Dao<User>{
 
     @Override
     public List<User> selectAll() {
-        final String sql = "SELECT * FROM users";
+       return null;
+    }
 
-        return jdbcTemplate.query(sql, (resultSet, i) -> {
+    @Override
+    public User selectById(UUID userId) {
+
+        final String sql = "SELECT " +
+                "user_id, " +
+                "username, " +
+                "name, " +
+                "region, " +
+                "address, " +
+                "email, " +
+                "surplus, " +
+                "total_energy_produced, " +
+                "total_energy_consumed, " +
+                "password " +
+                "FROM users " +
+                "WHERE user_id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, (resultSet, i) -> {
             return new User(
                     UUID.fromString(resultSet.getString("user_id")),
                     resultSet.getString("username"),
@@ -59,6 +77,7 @@ public class UserAccessService implements Dao<User>{
                     resultSet.getString("region"),
                     resultSet.getString("address"),
                     resultSet.getString("email"),
+                    resultSet.getInt("surplus"), // Surplus as integer
                     new BigInteger(resultSet.getString("total_energy_produced")),
                     new BigInteger(resultSet.getString("total_energy_consumed")),
                     resultSet.getString("password")

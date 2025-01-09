@@ -7,6 +7,7 @@ CREATE TABLE dem.users (
     region TEXT,
     address TEXT,
     email TEXT,
+    surplus INT,
     total_energy_produced INT,
     total_energy_consumed INT,
     password TEXT
@@ -58,9 +59,40 @@ CREATE TABLE dem.transaction_ledger (
 );
 
 COMMIT;
+BEGIN;
+
+CREATE TABLE dem.energy (
+    user_id UUID,
+    datetime TIMESTAMP,
+    amount INT,
+    PRIMARY KEY (user_id, datetime),  -- Composite Primary Key
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES dem.users(user_id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+COMMIT;
+
+BEGIN;
+
+CREATE TABLE dem.market (
+    user_id UUID,
+    region TEXT,
+    energija INT,
+    cena DECIMAL(10, 2),
+    PRIMARY KEY (user_id)
+);
+
+COMMIT;
+
+GRANT ALL PRIVILEGES ON DATABASE dem TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.wallets TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.users TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.transaction_ledger TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.iot_devices TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.energy TO dem;
+GRANT ALL PRIVILEGES ON TABLE dem.market TO dem;
 
 INSERT INTO dem.users (
-    user_id, username, name, region, address, email, total_energy_produced, total_energy_consumed
+    user_id, username, name, region, address, email, surplus, total_energy_produced, total_energy_consumed, password
 )
 VALUES
 (
@@ -70,12 +102,14 @@ VALUES
     'North Region',
     '1234 Elm St, Springfield, IL',
     'john.doe@example.com',
-    500000,
-    200000
-);
+    0,
+    0,
+    0,
+    'aaa'
+    );
 
 INSERT INTO dem.users (
-    user_id, username, name, region, address, email, total_energy_produced, total_energy_consumed, password
+    user_id, username, name, region, address, email, surplus, total_energy_produced, total_energy_consumed, password
 )
 VALUES
 (
@@ -85,8 +119,9 @@ VALUES
     'South Region',
     '1234 Elm St, Springfield, IL',
     'john.doe@example.com',
-    800000,
-    100,
+    0,
+    0,
+    0,
     'asd'
 );
 

@@ -31,6 +31,16 @@ public class EnergyAccessService implements Dao<Energy> {
                 energy.getDatetime(),
                 energy.getAmount());
 
+        final String sqlUpdateUser = "UPDATE users " +
+                "SET total_energy_produced = total_energy_produced + ?, " +
+                "surplus = surplus + ? " +
+                "WHERE user_id = ?";
+
+        jdbcTemplate.update(sqlUpdateUser,
+                energy.getAmount(),
+                energy.getAmount(),
+                energy.getUserId());
+
         return energy;
 
     }

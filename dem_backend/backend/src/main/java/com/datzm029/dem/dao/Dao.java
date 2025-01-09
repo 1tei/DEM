@@ -1,6 +1,7 @@
 package com.datzm029.dem.dao;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface Dao<T> {
     T insert(T t);
@@ -11,6 +12,16 @@ public interface Dao<T> {
         return 0;
     }
 
+    default T selectById(UUID id) {
+        return null;
+    }
+
     T checkIfExist(T object);
 
+    default void update(UUID userId, int energija) {
+
+    }
+    default UUID getId(String login){
+        return null;
+    }
 }
