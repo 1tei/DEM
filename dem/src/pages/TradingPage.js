@@ -1,27 +1,26 @@
-// Import necessary libraries
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const MarketPage = () => {
-	const [energyData, setEnergyData] = useState([]);
+	const [marketData, setMarketData] = useState([]);
 	const [surplusEnergy, setSurplusEnergy] = useState(0);
 	const [energySold, setEnergySold] = useState(0);
 	const [energyBought, setEnergyBought] = useState(0);
 	const navigate = useNavigate();
 
-	const handleBuy = (region, amount) => {
+	const handleBuy = (userId, amount) => {
 		if (!amount || amount <= 0) {
 			alert("Enter a valid buy amount!");
 			return;
 		}
-
 		// POST req to buy
 		axios
-			.post("/buy", { region, amount })
+			.post("/buy", { userId, amount })
 			.then((response) => {
-				alert(`Successfully bought ${amount}kW from ${region}`);
+				alert(`Successfully bought ${amount}kW!`);
 				setEnergyBought((prev) => prev + amount);
+				fetchMarketData(); // Refresh market data after purchase
 			})
 			.catch((error) => {
 				console.error("Error buying energy:", error);
@@ -44,27 +43,34 @@ const MarketPage = () => {
 			});
 	};
 
-	useEffect(() => {
-		const fetchUserEnergy = async () => {
-			try {
-				// userId
-				const userId = localStorage.getItem("userId");
-				if (!userId) {
-					console.error("User ID not found in localStorage!");
-					return;
-				}
+	const fetchMarketData = async () => {
+		try {
+			const response = await axios.get("/getMarket");
+			setMarketData(response.data);
+		} catch (error) {
+			console.error("Error fetching market data:", error);
+		}
+	};
 
-				// Fetch surplus
-				const response = await axios.get(`/getUserEnergy`, {
-					params: { userId },
-				});
-				setSurplusEnergy(response.data);
-			} catch (error) {
-				console.error("Error fetching user energy:", error);
+	const fetchSurplusEnergy = async () => {
+		try {
+			const userId = localStorage.getItem("userId");
+			if (!userId) {
+				console.error("User ID not found in localStorage!");
+				return;
 			}
-		};
+			const response = await axios.get(`/getUserEnergy`, {
+				params: { userId },
+			});
+			setSurplusEnergy(response.data);
+		} catch (error) {
+			console.error("Error fetching surplus energy:", error);
+		}
+	};
 
-		fetchUserEnergy();
+	useEffect(() => {
+		fetchMarketData();
+		fetchSurplusEnergy();
 	}, []);
 
 	return (
@@ -125,13 +131,11 @@ const MarketPage = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{energyData.map((entry) => (
+						{marketData.map((entry) => (
 							<tr key={entry.region} className="even:bg-gray-100">
 								<td className="p-4 border border-gray-300">{entry.region}</td>
 								<td className="p-4 border border-gray-300">{entry.energy}kW</td>
-								<td className="p-4 border border-gray-300">
-									{entry.price} ETH
-								</td>
+								<td className="p-4 border border-gray-300">{entry.cena} ETH</td>
 								<td className="p-4 border border-gray-300">
 									<input
 										type="number"
@@ -141,7 +145,7 @@ const MarketPage = () => {
 									/>
 									<button
 										onClick={() =>
-											handleBuy(entry.region, parseInt(entry.buyAmount))
+											handleBuy(entry.userId, parseInt(entry.buyAmount))
 										}
 										className="bg-indigo-600 text-white px-4 py-2 rounded-full mt-2 w-full"
 									>
