@@ -28,6 +28,7 @@ public class UserAccessService implements Dao<User> {
                 "region, " +
                 "address, " +
                 "email, " +
+                "surplus, " +
                 "total_energy_produced, " +
                 "total_energy_consumed, " +
                 "password" +
@@ -40,6 +41,7 @@ public class UserAccessService implements Dao<User> {
                 user.getRegion(),
                 user.getAddress(),
                 user.getEmail(),
+                user.getSurplus(),
                 user.getTotalEnergyProduced(),
                 user.getTotalEnergyConsumed(),
                 user.getPassword());
