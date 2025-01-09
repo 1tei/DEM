@@ -45,6 +45,7 @@ public class GanacheService {
         //contractAddress, web3j, txManager, gasPrice, new BigInteger("100000"));
     }
 
+
     public void getBalance(Web3j web3, String address) {
         try {
             // Query the balance of the account in Wei (the smallest unit of Ether)
@@ -174,18 +175,18 @@ public class GanacheService {
         System.out.println("Transaction sent! Hash: " + transactionHash);
     }
 
-    public void createP2PTrade(String privateKey, String addressTo, String rpcEndpoint, Long chainId) throws Exception {
-        GanacheService manager = new GanacheService(privateKey, addressTo, rpcEndpoint, chainId);
-        manager.createTrade(addressTo);
-    }
+//    public void createP2PTrade(String privateKey, String addressTo, String rpcEndpoint, Long chainId) throws Exception {
+//        GanacheService manager = new GanacheService(privateKey, addressTo, rpcEndpoint, chainId);
+//        manager.createTrade(addressTo);
+//    }
 
-    public void createContractTrade(String privateKey, String addressTo, String contractAddress, String rpcEndpoint, Long chainId) throws Exception {
+    public void createContractTrade(BigInteger energyAmount, String privateKey, String addressTo, String contractAddress, String rpcEndpoint, Long chainId) throws Exception {
         GanacheService manager = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
-        manager.createTrade(addressTo);
+        manager.createTrade(addressTo, energyAmount);
     }
 
-    private void createTrade(String addressTo) throws Exception {
-        BigInteger energyAmount = BigInteger.valueOf(1000); // 100 units of energy
+    private void createTrade(String addressTo, BigInteger energyAmount) throws Exception {
+       // BigInteger energyAmount = BigInteger.valueOf(1000); // 100 units of energy
         BigInteger weiValue = Convert.toWei("0.1", Convert.Unit.ETHER).toBigInteger(); // 0.1 ETH in wei
 
         TransactionReceipt createTradeReceipt = createTrade(addressTo, energyAmount, weiValue);
@@ -235,6 +236,13 @@ public class GanacheService {
                 || ((EthBlock.TransactionObject) transactions.get(0)).getTo().equals(address.toLowerCase());
     }
 
+    public void createTransaction(String privateKey, String addressTo, BigInteger energyAmount) throws Exception {
+        String contractAddress = "0x80d2DB2E7C1F8d638069DB7e36dB1a73f570fe24";
+        String rpcEndpoint = "HTTP://127.0.0.1:7545"; // Use this for Ganache or localhost
+        long chainId = 1337;  // Chain ID for Ganache
+        GanacheService service = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
+        service.createContractTrade(energyAmount, privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
+    }
     public static void main(String[] args) {
         try {
             // Replace these values with your own
@@ -244,10 +252,10 @@ public class GanacheService {
             String rpcEndpoint = "HTTP://127.0.0.1:7545"; // Use this for Ganache or localhost
             long chainId = 1337;  // Chain ID for Ganache
             GanacheService service = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
-            service.createContractTrade(privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
+            service.createContractTrade(new BigInteger("10"), privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
 
 //manager.getTransactionsByAddress(addressTo);
-            Credentials pk = service.createWallet2("asd");
+            //Credentials pk = service.createWallet2("asd");
             //service.createP2PTrade(privateKey, addressTo, rpcEndpoint, chainId);
 
             //TransactionReceipt createTradeReceipt2 = manager.createTrade("0x255FfE4a4797E0873C08525D0f5D4051211df939", energyAmount, weiValue);

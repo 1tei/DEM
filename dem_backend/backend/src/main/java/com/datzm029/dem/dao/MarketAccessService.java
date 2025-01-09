@@ -70,4 +70,16 @@ public class MarketAccessService implements Dao<Market> {
 
     }
 
+    @Override
+    public void updateUz(UUID userId, int energija) {
+        final String sqlUpdateUser = "UPDATE market " +
+                "SET energija = energija + ? " +
+                "WHERE user_id = ?";
+
+        jdbcTemplate.update(sqlUpdateUser,
+                energija,
+                userId);
+
+    }
+
 }

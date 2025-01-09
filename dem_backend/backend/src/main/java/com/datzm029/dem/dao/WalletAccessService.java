@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository("postgres_wallet")
 public class WalletAccessService implements Dao<Wallet> {
@@ -38,6 +39,30 @@ public class WalletAccessService implements Dao<Wallet> {
                 wallet.getCreationDate());
 
         return wallet;
+    }
+
+    @Override
+    public Wallet selectById(UUID userId) {
+        final String sql = "SELECT " +
+                "public_key, " +
+                "user_id, " +
+                "walletaddress, " +
+                "private_key_hash, " +
+                "balance, " +
+                "creation_date " +
+                "FROM wallets " +
+                "WHERE user_id = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, (resultSet, i) -> {
+            Wallet wallet = new Wallet(
+                    resultSet.getString("public_key"),
+                    resultSet.getString("walletaddress"),
+                    resultSet.getString("private_key_hash"),
+                    resultSet.getTimestamp("creation_date") // Assuming TIMESTAMP for `creation_date`
+            );
+            wallet.setUserId(UUID.fromString(resultSet.getString("user_id")));
+            return wallet;
+        });
     }
 
     @Override

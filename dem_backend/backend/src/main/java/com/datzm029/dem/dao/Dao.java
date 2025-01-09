@@ -18,7 +18,10 @@ public interface Dao<T> {
 
     T checkIfExist(T object);
 
-    default void update(UUID userId, int energija) {
+    default void update(UUID userIdNo, int energija) {
+
+    }
+    default void updateUz(UUID userIdUz, int energija){
 
     }
     default UUID getId(String login){

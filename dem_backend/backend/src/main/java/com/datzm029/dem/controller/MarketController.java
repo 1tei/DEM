@@ -2,6 +2,7 @@ package com.datzm029.dem.controller;
 
 import com.datzm029.dem.Services.EnergyService;
 import com.datzm029.dem.Services.MarketService;
+import com.datzm029.dem.dao.WalletAccessService;
 import com.datzm029.dem.model.Energy;
 import com.datzm029.dem.model.Market;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class MarketController {
     @Autowired
     MarketService service;
 
+    @Autowired
+    WalletAccessService walletAccessService;
     public MarketController(MarketService service) {
         this.service = service;
     }
@@ -44,8 +47,8 @@ public class MarketController {
     @PostMapping(value = "/sellMarketEnergy")
     public void sellMarketEnergy(@RequestParam("userIdNo") String userIdNo,
                                  @RequestParam("userIdUz") String userId,
-                                 @RequestParam("energija") int energija){
-        service.sellMarketEnergy(UUID.fromString(userId), energija);
+                                 @RequestParam("energija") int energija) throws Exception {
+        service.sellMarketEnergy(walletAccessService, UUID.fromString(userIdNo),UUID.fromString(userId), energija);
         System.out.println("sold " + energija);
     }
 

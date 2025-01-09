@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository("postgres_user")
-public class UserAccessService implements Dao<User>{
+public class UserAccessService implements Dao<User> {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -49,7 +49,7 @@ public class UserAccessService implements Dao<User>{
 
     @Override
     public List<User> selectAll() {
-       return null;
+        return null;
     }
 
     @Override
@@ -90,4 +90,14 @@ public class UserAccessService implements Dao<User>{
         return null;
     }
 
+    @Override
+    public UUID getId(String username) {
+        String sql = "SELECT user_id " +
+                "FROM users " +
+                "WHERE username = ?";
+
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, (resultSet, i) -> {
+            return UUID.fromString(resultSet.getString("user_id"));
+        });
+    }
 }

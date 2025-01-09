@@ -6,18 +6,18 @@ contract EnergyMarket {
     struct EnergyTransaction {
         address account_from;
         address account_to;
-        uint256 energy_price;
+        uint256 amountenergy_price;
         uint256 timestamp;
-        uint256 amount;
+        uint256 energy_price;
     }
 
     // Event to log energy transactions
     event EnergyPurchased(
         address indexed account_from,
         address indexed account_to,
-        uint256 energy_price,
+        uint256 amount,
         uint256 timestamp,
-        uint256 amount
+        uint256 energy_price
     );
 
     // Function to buy energy
