@@ -7,6 +7,7 @@ const MarketPage = () => {
 	const [surplusEnergy, setSurplusEnergy] = useState(0);
 	const [energySold, setEnergySold] = useState(0);
 	const [energyBought, setEnergyBought] = useState(0);
+	const [sellAmount, setSellAmount] = useState(0);
 	const navigate = useNavigate();
 
 	const handleBuy = (userId, amount) => {
@@ -29,17 +30,27 @@ const MarketPage = () => {
 	};
 
 	const handleSell = () => {
-		// POST req to sell surplus
+		const userId = localStorage.getItem("userId");
+		const region = localStorage.getItem("region");
+		if (!userId || sellAmount <= 0 || sellAmount <= surplusEnergy) {
+			alert("Enter a valid sell amount!");
+			return;
+		}
+
 		axios
-			.post("/sell", { amount: surplusEnergy })
-			.then((response) => {
-				alert(`Successfully sold ${surplusEnergy}kW!`);
-				setEnergySold((prev) => prev + surplusEnergy);
-				setSurplusEnergy(0);
+			.post("http://localhost:8080/addMarket", {
+				userId,
+				region,
+				energija: sellAmount,
+			})
+			.then(() => {
+				alert(`Successfully added ${sellAmount}kW to market!`);
+				setSellAmount(0);
+				fetchMarketData();
 			})
 			.catch((error) => {
 				console.error("Error selling energy:", error);
-				alert("Failed to sell energy.");
+				alert("Failed to add energy to market.");
 			});
 	};
 
@@ -100,6 +111,13 @@ const MarketPage = () => {
 								{surplusEnergy}kW
 							</span>
 						</p>
+						<input
+							type="number"
+							placeholder="Enter sell amount"
+							value={sellAmount}
+							onChange={(e) => setSellAmount(Number(e.target.value))}
+							className="border border-gray-300 p-2 rounded mt-2 w-full"
+						/>
 						<button
 							onClick={handleSell}
 							className="bg-indigo-600 text-white px-4 py-2 rounded-full mt-2"
@@ -134,7 +152,9 @@ const MarketPage = () => {
 						{marketData.map((entry) => (
 							<tr key={entry.region} className="even:bg-gray-100">
 								<td className="p-4 border border-gray-300">{entry.region}</td>
-								<td className="p-4 border border-gray-300">{entry.energy}kW</td>
+								<td className="p-4 border border-gray-300">
+									{entry.energija}kW
+								</td>
 								<td className="p-4 border border-gray-300">{entry.cena} ETH</td>
 								<td className="p-4 border border-gray-300">
 									<input
