@@ -134,7 +134,9 @@ const MarketPage = () => {
 						{marketData.map((entry) => (
 							<tr key={entry.region} className="even:bg-gray-100">
 								<td className="p-4 border border-gray-300">{entry.region}</td>
-								<td className="p-4 border border-gray-300">{entry.energy}kW</td>
+								<td className="p-4 border border-gray-300">
+									{entry.energija}kW
+								</td>
 								<td className="p-4 border border-gray-300">{entry.cena} ETH</td>
 								<td className="p-4 border border-gray-300">
 									<input
