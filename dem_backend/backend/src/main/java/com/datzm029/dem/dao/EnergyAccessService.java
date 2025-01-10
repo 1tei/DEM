@@ -54,9 +54,9 @@ public class EnergyAccessService implements Dao<Energy> {
     public int selectAllById(String id) {
         final String sql = "" +
                 "SELECT " +
-                "    SUM(amount) AS amount_count " +
+                "    surplus amount_count " +
                 "FROM " +
-                "    energy " +
+                "    users " +
                 "WHERE " +
                 "    user_id = ?";
 
