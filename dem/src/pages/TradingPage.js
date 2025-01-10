@@ -32,17 +32,20 @@ const MarketPage = () => {
 	const handleSell = () => {
 		const userId = localStorage.getItem("userId");
 		const region = localStorage.getItem("region");
+
 		if (!userId || sellAmount <= 0) {
 			alert("Enter a valid sell amount!");
 			return;
 		}
 
+		const url = `http://localhost:8080/addMarket?userId=${encodeURIComponent(
+			userId
+		)}&region=${encodeURIComponent(region)}&energija=${encodeURIComponent(
+			sellAmount
+		)}`;
+
 		axios
-			.post("http://localhost:8080/addMarket", {
-				userId,
-				region,
-				energija: sellAmount,
-			})
+			.post(url)
 			.then(() => {
 				alert(`Successfully added ${sellAmount}kW to market!`);
 				setSellAmount(0);
