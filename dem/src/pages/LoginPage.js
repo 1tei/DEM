@@ -15,31 +15,53 @@ const Login = () => {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		const url = `http://localhost:8080/loginUser?login=${encodeURIComponent(
-			formData.username
-		)}`;
-
-		axios
-			.get(url)
-			.then((response) => {
-				console.log("User logged in successfully", response.data);
-				alert("User logged in successfully");
-
-				const { userId, region } = response.data;
-
-				localStorage.setItem("userId", userId);
-				localStorage.setItem("region", region);
-
-				// navigate to a different page
-			})
-			.catch((error) => {
-				console.error("There was an error logging in!", error);
-				alert("Invalid username or password!");
+		try {
+			const loginUrl = `http://localhost:8080/loginUser`;
+			const loginResponse = await axios.post(loginUrl, {
+				username: formData.username,
+				// password: formData.password
 			});
+			const userId = loginResponse.data;
+			localStorage.setItem("userId", userId);
+
+			const userUrl = `http://localhost:8080/getUser?userId=${encodeURIComponent(
+				userId
+			)}`;
+			const userResponse = await axios.get(userUrl);
+
+			const { region } = userResponse.data;
+			localStorage.setItem("region", region);
+
+			alert("User logged in successfully");
+		} catch (error) {
+			console.error("There was an error during login!", error);
+			alert("Invalid username or password!");
+		}
 	};
+
+	// const getUserInfo = async () => {
+	// 	try {
+	// 		const userId = localStorage.getItem("userId");
+	// 		if (!userId) {
+	// 			console.error("User ID not found in localStorage!");
+	// 			return;
+	// 		}
+	// 		const userUrl = `http://localhost:8080/getUser?userId=${encodeURIComponent(
+	// 			userId
+	// 		)}`;
+	// 		const response = await axios.get(userUrl);
+	// 		console.log("User information retrieved:", response.data);
+	// 		const { region, username, name } = response.data;
+	// 		console.log(`Region: ${region}, Username: ${username}, Name: ${name}`);
+	// 		localStorage.setItem("region", region);
+	// 		return response.data;
+	// 	} catch (error) {
+	// 		console.error("Error fetching user information:", error);
+	// 		alert("Failed to fetch user information!");
+	// 	}
+	// };
 
 	return (
 		<div className="flex justify-center items-center min-h-screen bg-gray-100">
