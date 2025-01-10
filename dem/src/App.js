@@ -25,18 +25,18 @@ const App = () => {
 						<Route path="/register" element={<Register />} />
 						<Route path="/login" element={<Login />} />
 						{/* Should be private, i do not have backend */}
-						<Route path="/wallet" element={<Wallet />} />
-						<Route path="/trading" element={<Trading />} />
+						{/* <Route path="/wallet" element={<Wallet />} />
+						<Route path="/trading" element={<Trading />} /> */}
 
 						{/* Private routes */}
-						{/* <Route
+						<Route
 							path="/wallet"
 							element={userId ? <Wallet /> : <Navigate to="/login" />}
 						/>
 						<Route
 							path="/trading"
 							element={userId ? <Trading /> : <Navigate to="/login" />}
-						/> */}
+						/>
 					</Routes>
 				</div>
 			</div>

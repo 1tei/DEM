@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -23,8 +26,6 @@ const Login = () => {
 			)}`;
 			const loginResponse = await axios.get(loginUrl);
 			const userId = loginResponse.data;
-
-			// userId
 			localStorage.setItem("userId", userId);
 
 			const userUrl = `http://localhost:8080/getUser?userId=${encodeURIComponent(
@@ -37,6 +38,8 @@ const Login = () => {
 			localStorage.setItem("region", region);
 
 			alert("User logged in successfully");
+
+			navigate("/trading");
 		} catch (error) {
 			console.error("There was an error during login!", error);
 			alert("Invalid username or password!");
