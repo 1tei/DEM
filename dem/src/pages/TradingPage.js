@@ -32,7 +32,7 @@ const MarketPage = () => {
 	const handleSell = () => {
 		const userId = localStorage.getItem("userId");
 		const region = localStorage.getItem("region");
-		if (!userId || sellAmount <= 0 || sellAmount <= surplusEnergy) {
+		if (!userId || sellAmount <= 0) {
 			alert("Enter a valid sell amount!");
 			return;
 		}
