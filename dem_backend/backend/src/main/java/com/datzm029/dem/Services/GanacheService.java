@@ -1,6 +1,7 @@
 package com.datzm029.dem.Services;
 
 import com.datzm029.dem.Contracts.SimpleStorage_sol_SimpleStorage;
+import com.datzm029.dem.model.Transaction;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
@@ -207,10 +208,10 @@ public class GanacheService {
         return contract.sendEther(adressTo, energyAmount, pricePerUnit).send();
     }
 
-    public List<EthBlock.TransactionResult> getTransactionsByAddress(String address) throws IOException {
+    public List<Transaction> getTransactionsByAddress(String address) throws IOException {
         BigInteger startBlock = BigInteger.ONE; // Starting block number
         BigInteger endBlock = web3j.ethBlockNumber().send().getBlockNumber(); // Latest block number
-        List<EthBlock.TransactionResult> result = new ArrayList<>();
+        List<Transaction> result = new ArrayList<>();
         System.out.println("Scanning blocks from " + startBlock + " to " + endBlock);
 
         for (BigInteger i = startBlock; i.compareTo(endBlock) <= 0; i = i.add(BigInteger.ONE)) {
@@ -219,9 +220,18 @@ public class GanacheService {
             List<EthBlock.TransactionResult> transactions = block.getBlock().getTransactions();
             if (transactionsToAndFromIsntNull(transactions)
                     && transactionContainsAdressed(transactions, address)) {
-                result.add(transactions.get(0));
+
+                for(EthBlock.TransactionResult res : transactions) {
+                    EthBlock.TransactionObject transaction = (EthBlock.TransactionObject) res.get();
+                    String from = transaction.getFrom();
+                    String to = transaction.getTo();
+                    String hash = transaction.getHash();
+                    BigInteger value = transaction.getValue();
+
+                    result.add(new Transaction(from, to, hash, value));
+
+                }
             }
-            System.out.println(transactions);
         }
         return result;
     }
@@ -247,14 +257,14 @@ public class GanacheService {
         try {
             // Replace these values with your own
             String privateKey = "0x589bc7a586dcd1a4073e5f075d2d3b7c686e07ae73642ed312d7421618af7785";
-            String addressTo = "0xE23769A21B078CcE9F953fF22cc85A31Eeb05265";
-            String contractAddress = "0x9AbFa633fc55D8370A52e242108e57D486f13763";
+            String addressTo = "0xDEe65f362a81cAa77e9f34e14e4845d272DCfF0D";
+            String contractAddress = "0x80d2DB2E7C1F8d638069DB7e36dB1a73f570fe24";
             String rpcEndpoint = "HTTP://127.0.0.1:7545"; // Use this for Ganache or localhost
             long chainId = 1337;  // Chain ID for Ganache
             GanacheService service = new GanacheService(privateKey, contractAddress, rpcEndpoint, chainId);
-            service.createContractTrade(new BigInteger("10"), privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
+            //service.createContractTrade(new BigInteger("10"), privateKey, addressTo, contractAddress, rpcEndpoint, chainId);
 
-//manager.getTransactionsByAddress(addressTo);
+            service.getTransactionsByAddress(addressTo);
             //Credentials pk = service.createWallet2("asd");
             //service.createP2PTrade(privateKey, addressTo, rpcEndpoint, chainId);
 
