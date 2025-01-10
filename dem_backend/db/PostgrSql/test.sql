@@ -10,6 +10,8 @@ CREATE TABLE dem.users (
     surplus INT,
     total_energy_produced INT,
     total_energy_consumed INT,
+    sold INT,
+    bought INT,
     password TEXT
 );
 

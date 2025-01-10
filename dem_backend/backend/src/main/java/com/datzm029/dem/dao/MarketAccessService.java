@@ -68,6 +68,14 @@ public class MarketAccessService implements Dao<Market> {
                 energija,
                 userId);
 
+        final String sqlUpdateUser2 = "UPDATE users " +
+                "SET sold = sold + ? " +
+                "WHERE user_id = ?";
+
+        jdbcTemplate.update(sqlUpdateUser2,
+                energija,
+                userId);
+
     }
 
     @Override
@@ -77,6 +85,14 @@ public class MarketAccessService implements Dao<Market> {
                 "WHERE user_id = ?";
 
         jdbcTemplate.update(sqlUpdateUser,
+                energija,
+                userId);
+
+        final String sqlUpdateUser2 = "UPDATE users " +
+                "SET bought = bought + ? " +
+                "WHERE user_id = ?";
+
+        jdbcTemplate.update(sqlUpdateUser2,
                 energija,
                 userId);
 

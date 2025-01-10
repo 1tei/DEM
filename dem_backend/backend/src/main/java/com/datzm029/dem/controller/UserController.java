@@ -34,6 +34,8 @@ public class UserController {
                 0,
                 BigInteger.ZERO,
                 BigInteger.ZERO,
+                BigInteger.ZERO,
+                BigInteger.ZERO,
                 user.getPassword())
         );
     }

@@ -31,8 +31,10 @@ public class UserAccessService implements Dao<User> {
                 "surplus, " +
                 "total_energy_produced, " +
                 "total_energy_consumed, " +
+                "sold, " +
+                "bought, " +
                 "password" +
-                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
         jdbcTemplate.update(sql,
                 user.getUserId(),
@@ -44,6 +46,8 @@ public class UserAccessService implements Dao<User> {
                 user.getSurplus(),
                 user.getTotalEnergyProduced(),
                 user.getTotalEnergyConsumed(),
+                user.getSold(),
+                user.getBought(),
                 user.getPassword());
 
         return user;
@@ -67,6 +71,8 @@ public class UserAccessService implements Dao<User> {
                 "surplus, " +
                 "total_energy_produced, " +
                 "total_energy_consumed, " +
+                "sold, " +
+                "bought, " +
                 "password " +
                 "FROM users " +
                 "WHERE user_id = ?";
@@ -82,6 +88,8 @@ public class UserAccessService implements Dao<User> {
                     resultSet.getInt("surplus"), // Surplus as integer
                     new BigInteger(resultSet.getString("total_energy_produced")),
                     new BigInteger(resultSet.getString("total_energy_consumed")),
+                    new BigInteger(resultSet.getString("sold")),
+                    new BigInteger(resultSet.getString("bought")),
                     resultSet.getString("password")
             );
         });

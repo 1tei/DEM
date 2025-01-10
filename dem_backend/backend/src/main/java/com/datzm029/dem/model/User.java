@@ -22,6 +22,8 @@ public class User {
     int surplus;
     BigInteger totalEnergyProduced;
     BigInteger totalEnergyConsumed;
+    BigInteger sold;
+    BigInteger bought;
     String password;
 
     public User(String username, String name, String region, String address, String email, String password) {
