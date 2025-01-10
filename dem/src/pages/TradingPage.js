@@ -123,7 +123,7 @@ const MarketPage = () => {
 	const fetchTransactions = async () => {
 		try {
 			const userId = localStorage.getItem("userId");
-			const response = await axios.get(`/getTransactions`, {
+			const response = await axios.get(`http://localhost:8080/getTransactions`, {
 				params: { userId },
 			});
 			setTransactions(response.data);
