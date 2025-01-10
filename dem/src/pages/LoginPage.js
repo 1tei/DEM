@@ -18,20 +18,22 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const loginUrl = `http://localhost:8080/loginUser`;
-			const loginResponse = await axios.post(loginUrl, {
-				username: formData.username,
-				// password: formData.password
-			});
+			const loginUrl = `http://localhost:8080/loginUser?login=${encodeURIComponent(
+				formData.username
+			)}`;
+			const loginResponse = await axios.get(loginUrl);
 			const userId = loginResponse.data;
+
+			// userId
 			localStorage.setItem("userId", userId);
 
 			const userUrl = `http://localhost:8080/getUser?userId=${encodeURIComponent(
 				userId
 			)}`;
 			const userResponse = await axios.get(userUrl);
-
 			const { region } = userResponse.data;
+
+			// region
 			localStorage.setItem("region", region);
 
 			alert("User logged in successfully");
@@ -40,28 +42,6 @@ const Login = () => {
 			alert("Invalid username or password!");
 		}
 	};
-
-	// const getUserInfo = async () => {
-	// 	try {
-	// 		const userId = localStorage.getItem("userId");
-	// 		if (!userId) {
-	// 			console.error("User ID not found in localStorage!");
-	// 			return;
-	// 		}
-	// 		const userUrl = `http://localhost:8080/getUser?userId=${encodeURIComponent(
-	// 			userId
-	// 		)}`;
-	// 		const response = await axios.get(userUrl);
-	// 		console.log("User information retrieved:", response.data);
-	// 		const { region, username, name } = response.data;
-	// 		console.log(`Region: ${region}, Username: ${username}, Name: ${name}`);
-	// 		localStorage.setItem("region", region);
-	// 		return response.data;
-	// 	} catch (error) {
-	// 		console.error("Error fetching user information:", error);
-	// 		alert("Failed to fetch user information!");
-	// 	}
-	// };
 
 	return (
 		<div className="flex justify-center items-center min-h-screen bg-gray-100">
