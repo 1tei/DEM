@@ -45,7 +45,7 @@ const MarketPage = () => {
 
 	const fetchMarketData = async () => {
 		try {
-			const response = await axios.get("/getMarket");
+			const response = await axios.get("http://localhost:8080/getMarket");
 			setMarketData(response.data);
 		} catch (error) {
 			console.error("Error fetching market data:", error);
@@ -59,7 +59,7 @@ const MarketPage = () => {
 				console.error("User ID not found in localStorage!");
 				return;
 			}
-			const response = await axios.get(`/getUserEnergy`, {
+			const response = await axios.get(`http://localhost:8080/getUserEnergy`, {
 				params: { userId },
 			});
 			setSurplusEnergy(response.data);
