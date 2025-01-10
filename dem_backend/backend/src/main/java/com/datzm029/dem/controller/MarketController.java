@@ -35,12 +35,12 @@ public class MarketController {
         this.service = service;
     }
 
-    @PostMapping(value = "/add/addMarket")
+    @PostMapping(value = "/addMarket")
     public void addMarket(@RequestParam("userId") String userId,
-                          @RequestParam("region") String timestamp,
+                          @RequestParam("region") String region,
                           @RequestParam("energija") int serialNumber) throws Exception {
-
-        service.addMarket(new Market(UUID.fromString(userId), timestamp, serialNumber, 1.2));
+        System.out.println("called addMarket");
+        service.addMarket(new Market(UUID.fromString(userId), region, serialNumber, 1.2));
     }
 
     @GetMapping(value = "/getMarket")

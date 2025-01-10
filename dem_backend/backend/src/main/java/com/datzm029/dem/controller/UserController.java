@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping(value = "/getUser")
     public User getUserById(@RequestParam("userId") String userId){
-        System.out.println("Called getUser");
+        System.out.println("Called getUser by id" + userId);
         return userService.selectUser(UUID.fromString(userId));
     }
 
