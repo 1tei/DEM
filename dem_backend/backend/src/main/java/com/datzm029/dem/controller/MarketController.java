@@ -52,7 +52,7 @@ public class MarketController {
 
     @PostMapping(value = "/sellMarketEnergy")
     public void sellMarketEnergy(@RequestParam("userIdNo") String userIdNo,
-                                 @RequestParam("userIdUz") String userId,
+                                 @RequestParam("userId") String userId,
                                  @RequestParam("energija") int energija) throws Exception {
         service.sellMarketEnergy(walletAccessService, UUID.fromString(userIdNo), UUID.fromString(userId), energija);
         System.out.println("sold " + energija);
@@ -69,4 +69,10 @@ public class MarketController {
         return ganacheService.getTransactionsByAddress(wallet.getWalletAddress());
     }
 
+    @GetMapping(value = "/getWalletAddress")
+    public String getWalletAddress(@RequestParam("userIdNo") String userId) {
+        System.out.println("Called getWalletAddress  " + userId);
+        Wallet wallet = walletAccessService.selectById(UUID.fromString(userId));
+        return wallet.getWalletAddress();
+    }
 }
