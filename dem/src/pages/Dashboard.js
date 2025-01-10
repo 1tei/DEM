@@ -48,13 +48,11 @@ const Dashboard = () => {
 
 	return (
 		<div className="flex flex-col items-center min-h-screen bg-gray-100">
-			<header className="bg-white shadow-md w-full max-w-6xl p-4 rounded">
-				<h1 className="text-3xl font-bold text-center">Your Wallet</h1>
-			</header>
-
 			<section className="bg-white p-8 rounded shadow-md w-full max-w-6xl my-6">
 				<div className="text-center">
-					<h2 className="text-2xl font-bold mb-4">Connect Your Wallet</h2>
+					<h1 className="text-3xl font-bold text-center">
+						Connect Your Wallet!
+					</h1>
 					{walletAddress ? (
 						<div className="bg-gray-50 p-6 rounded shadow-md">
 							<p className="text-gray-700">
