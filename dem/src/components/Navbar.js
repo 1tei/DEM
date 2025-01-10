@@ -5,7 +5,7 @@ const Navbar = () => (
 		<span className="text-xl font-bold">Energy Blockchain</span>
 		<div className="flex items-center">
 			<a href="/" className="text-white font-bold py-1 px-4 rounded">
-				Dashboard
+				Wallet
 			</a>
 			<a href="/trading" className="text-white font-bold py-1 px-4 rounded">
 				Trading
