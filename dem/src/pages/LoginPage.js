@@ -28,7 +28,10 @@ const Login = () => {
 				console.log("User logged in successfully", response.data);
 				alert("User logged in successfully");
 
-				localStorage.setItem("userId", response.data);
+				const { userId, region } = response.data;
+
+				localStorage.setItem("userId", userId);
+				localStorage.setItem("region", region);
 
 				// navigate to a different page
 			})
